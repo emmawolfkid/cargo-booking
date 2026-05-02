@@ -92,24 +92,43 @@ function filterItems() {
   renderItems(filtered);
 }
 
-// Save form data to localStorage before submit
+// NEW CODE - Handle form submission manually
 const form = document.querySelector('form');
 if (form) {
   form.addEventListener('submit', function(e) {
-    // Get the current selected items
-    const items = itemsInput.value || '';
-    const total = totalInput.value || '0';
+    e.preventDefault(); // Stop normal form submission
+    
+    // Collect all form data
     const name = document.querySelector('input[name="name"]')?.value || '';
     const phone = document.querySelector('input[name="phone"]')?.value || '';
     const pickup = document.querySelector('input[name="pickup"]')?.value || '';
     const destination = document.querySelector('input[name="destination"]')?.value || '';
+    const items = itemsInput.value || '';
+    const total = totalInput.value || '0';
+    const notes = document.querySelector('textarea[name="notes"]')?.value || '';
     
-    // Store in localStorage
-    localStorage.setItem('bookingItems', items);
-    localStorage.setItem('bookingTotal', total);
+    // Save to localStorage for thank-you page
     localStorage.setItem('bookingName', name);
     localStorage.setItem('bookingPhone', phone);
     localStorage.setItem('bookingPickup', pickup);
     localStorage.setItem('bookingDestination', destination);
+    localStorage.setItem('bookingItems', items);
+    localStorage.setItem('bookingTotal', total);
+    localStorage.setItem('bookingNotes', notes);
+    
+    // Send to Netlify via fetch API
+    const formData = new FormData(form);
+    
+    fetch('/', {
+      method: 'POST',
+      body: formData
+    }).then(() => {
+      // After sending to Netlify, go to thank-you page
+      window.location.href = '/thank-you.html';
+    }).catch(error => {
+      console.error('Error:', error);
+      // Still go to thank-you page even if Netlify fails
+      window.location.href = '/thank-you.html';
+    });
   });
 }

@@ -109,35 +109,13 @@
 </div>
 
 <script>
-  // Get form data from URL parameters (if coming from redirect)
-  const params = new URLSearchParams(window.location.search);
-  
-  let items = params.get("items") || "-";
-  let total = params.get("total") || "0";
-  let name = params.get("name") || "Customer";
-  let phone = params.get("phone") || "";
-  let pickup = params.get("pickup") || "-";
-  let destination = params.get("destination") || "-";
-  
-  // If no URL params, this is a direct visit or POST submission
-  // For Netlify, we need to check if data was passed via POST
-  if (items === "-" && window.location.search === "") {
-    // Try to read from localStorage (set by form before submit)
-    items = localStorage.getItem("bookingItems") || "-";
-    total = localStorage.getItem("bookingTotal") || "0";
-    name = localStorage.getItem("bookingName") || "Customer";
-    phone = localStorage.getItem("bookingPhone") || "";
-    pickup = localStorage.getItem("bookingPickup") || "-";
-    destination = localStorage.getItem("bookingDestination") || "-";
-    
-    // Clear localStorage after reading
-    localStorage.removeItem("bookingItems");
-    localStorage.removeItem("bookingTotal");
-    localStorage.removeItem("bookingName");
-    localStorage.removeItem("bookingPhone");
-    localStorage.removeItem("bookingPickup");
-    localStorage.removeItem("bookingDestination");
-  }
+  // Read data from localStorage
+  const name = localStorage.getItem('bookingName') || 'Customer';
+  const phone = localStorage.getItem('bookingPhone') || '';
+  const pickup = localStorage.getItem('bookingPickup') || '-';
+  const destination = localStorage.getItem('bookingDestination') || '-';
+  const items = localStorage.getItem('bookingItems') || '-';
+  const total = localStorage.getItem('bookingTotal') || '0';
   
   document.getElementById("name").textContent = name;
   document.getElementById("phone").textContent = phone;
@@ -155,7 +133,9 @@
 
   document.getElementById("whatsappBtn").href =
     `https://wa.me/${whatsappPhone}?text=${message}`;
+    
+  // Clear localStorage after using it (optional)
+  // localStorage.clear();
 </script>
-
 </body>
 </html>
