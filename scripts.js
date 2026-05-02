@@ -91,10 +91,3 @@ function filterItems() {
 
   renderItems(filtered);
 }
-
-document.querySelector("form").addEventListener("submit", function(e) {
-  const items = document.getElementById("itemsInput").value;
-  const total = document.getElementById("totalInput").value;
-
-  this.action = `/thank-you.html?items=${encodeURIComponent(items)}&total=${total}`;
-});
