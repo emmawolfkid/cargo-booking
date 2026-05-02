@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cargo Booking</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <div class="header">
+    <img src="logo.png" alt="Company Logo" class="logo"/>
+    <h1>Cargo Booking</h1>
+    <p>Fast • Reliable • Secure Transport</p>
+  </div>
+
+  <!-- FORM CARD -->
+  <div class="card">
+
+    <form 
+      name="cargo-booking" 
+      method="POST" 
+      data-netlify="true" 
+      action="/thank-you.html"
+      onsubmit="handleSubmit(event)"
+    >
+
+      <!-- REQUIRED FOR NETLIFY -->
+      <input type="hidden" name="form-name" value="cargo-booking">
+
+      <!-- HIDDEN DATA -->
+      <input type="hidden" name="items" id="itemsInput">
+      <input type="hidden" name="total" id="totalInput">
+
+      <!-- CUSTOMER -->
+      <h3>Customer Details</h3>
+      <input type="text" name="name" placeholder="Full Name" required>
+      <input type="tel" name="phone" placeholder="Phone Number" required>
+
+      <!-- LOCATIONS -->
+      <h3>Pickup & Delivery</h3>
+      <input type="text" name="pickup" placeholder="Pickup Location" required>
+      <input type="text" name="destination" placeholder="Destination" required>
+
+      <!-- SEARCH + FILTER -->
+      <h3>Select Items</h3>
+
+      <input type="text" id="search" placeholder="Search items...">
+
+      <select id="categoryFilter">
+        <option value="all">All Categories</option>
+      </select>
+
+      <!-- ITEMS CONTAINER (DYNAMIC) -->
+      <div class="items"></div>
+
+      <!-- TOTAL -->
+      <div class="total-box">
+        Total: <strong><span id="total">0</span> TZS</strong>
+      </div>
+
+      <!-- NOTES -->
+      <textarea name="notes" placeholder="Additional instructions (optional)"></textarea>
+
+      <!-- BUTTON -->
+      <button type="submit">Confirm Booking</button>
+
+    </form>
+
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
