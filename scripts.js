@@ -91,3 +91,25 @@ function filterItems() {
 
   renderItems(filtered);
 }
+
+// Save form data to localStorage before submit
+const form = document.querySelector('form');
+if (form) {
+  form.addEventListener('submit', function(e) {
+    // Get the current selected items
+    const items = itemsInput.value || '';
+    const total = totalInput.value || '0';
+    const name = document.querySelector('input[name="name"]')?.value || '';
+    const phone = document.querySelector('input[name="phone"]')?.value || '';
+    const pickup = document.querySelector('input[name="pickup"]')?.value || '';
+    const destination = document.querySelector('input[name="destination"]')?.value || '';
+    
+    // Store in localStorage
+    localStorage.setItem('bookingItems', items);
+    localStorage.setItem('bookingTotal', total);
+    localStorage.setItem('bookingName', name);
+    localStorage.setItem('bookingPhone', phone);
+    localStorage.setItem('bookingPickup', pickup);
+    localStorage.setItem('bookingDestination', destination);
+  });
+}

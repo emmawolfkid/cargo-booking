@@ -61,6 +61,9 @@
       color: white;
       font-size: 16px;
       cursor: pointer;
+      display: inline-block;
+      text-align: center;
+      text-decoration: none;
     }
 
     .btn.whatsapp {
@@ -82,6 +85,10 @@
   <h3>Booking Receipt</h3>
 
   <div class="info">
+    <p><strong>Name:</strong> <span id="name"></span></p>
+    <p><strong>Phone:</strong> <span id="phone"></span></p>
+    <p><strong>Pickup:</strong> <span id="pickup"></span></p>
+    <p><strong>Destination:</strong> <span id="destination"></span></p>
     <p><strong>Items:</strong> <span id="items"></span></p>
     <p><strong>Total:</strong> <span id="total"></span> TZS</p>
     <p><strong>Date:</strong> <span id="date"></span></p>
@@ -102,11 +109,40 @@
 </div>
 
 <script>
+  // Get form data from URL parameters (if coming from redirect)
   const params = new URLSearchParams(window.location.search);
-
-  const items = params.get("items") || "-";
-  const total = params.get("total") || "0";
-
+  
+  let items = params.get("items") || "-";
+  let total = params.get("total") || "0";
+  let name = params.get("name") || "Customer";
+  let phone = params.get("phone") || "";
+  let pickup = params.get("pickup") || "-";
+  let destination = params.get("destination") || "-";
+  
+  // If no URL params, this is a direct visit or POST submission
+  // For Netlify, we need to check if data was passed via POST
+  if (items === "-" && window.location.search === "") {
+    // Try to read from localStorage (set by form before submit)
+    items = localStorage.getItem("bookingItems") || "-";
+    total = localStorage.getItem("bookingTotal") || "0";
+    name = localStorage.getItem("bookingName") || "Customer";
+    phone = localStorage.getItem("bookingPhone") || "";
+    pickup = localStorage.getItem("bookingPickup") || "-";
+    destination = localStorage.getItem("bookingDestination") || "-";
+    
+    // Clear localStorage after reading
+    localStorage.removeItem("bookingItems");
+    localStorage.removeItem("bookingTotal");
+    localStorage.removeItem("bookingName");
+    localStorage.removeItem("bookingPhone");
+    localStorage.removeItem("bookingPickup");
+    localStorage.removeItem("bookingDestination");
+  }
+  
+  document.getElementById("name").textContent = name;
+  document.getElementById("phone").textContent = phone;
+  document.getElementById("pickup").textContent = pickup;
+  document.getElementById("destination").textContent = destination;
   document.getElementById("items").textContent = items;
   document.getElementById("total").textContent = total;
   document.getElementById("total2").textContent = total;
@@ -114,11 +150,11 @@
   const now = new Date();
   document.getElementById("date").textContent = now.toLocaleString();
 
-  const phone = "255679779669";
-  const message = `Hello, I have made a cargo booking.%0AItems: ${items}%0ATotal: ${total} TZS`;
+  const whatsappPhone = "255679779669";
+  const message = `Hello, I have made a cargo booking.%0AName: ${name}%0APhone: ${phone}%0APickup: ${pickup}%0ADestination: ${destination}%0AItems: ${items}%0ATotal: ${total} TZS`;
 
   document.getElementById("whatsappBtn").href =
-    `https://wa.me/${phone}?text=${message}`;
+    `https://wa.me/${whatsappPhone}?text=${message}`;
 </script>
 
 </body>
