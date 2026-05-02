@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Booking Received</title>
+  <title>Receipt</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -10,65 +10,116 @@
       font-family: 'Segoe UI', sans-serif;
       background: #f4f6f9;
       margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      padding: 20px;
     }
 
-    .card {
+    .receipt {
+      max-width: 500px;
+      margin: auto;
       background: white;
-      padding: 30px;
+      padding: 25px;
       border-radius: 12px;
-      text-align: center;
-      max-width: 400px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     }
 
-    h2 {
-      color: #2e7d32;
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
     }
 
-    .btn {
-      display: block;
+    .logo {
+      width: 80px;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      margin: 5px 0;
+    }
+
+    .info {
       margin-top: 15px;
-      padding: 12px;
-      background: #25D366;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
+      font-size: 15px;
+    }
+
+    .info p {
+      margin: 6px 0;
+    }
+
+    .total {
+      margin-top: 15px;
+      font-size: 18px;
       font-weight: bold;
     }
 
-    .secondary {
+    .btn {
+      margin-top: 20px;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 8px;
       background: #1e88e5;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .btn.whatsapp {
+      background: #25D366;
     }
   </style>
 </head>
+
 <body>
 
-<div class="card">
+<div class="receipt">
 
-  <h2>✅ Booking Received!</h2>
-  <p>Your request has been submitted successfully.</p>
+  <div class="header">
+    <img src="logo.png" class="logo">
+    <h2>Mwanza Cargo</h2>
+    <p>Fast • Reliable • Secure Transport</p>
+  </div>
 
-  <p><strong>Next Step:</strong></p>
-  <p>Please complete payment via:</p>
+  <h3>Booking Receipt</h3>
 
-  <h3>M-Pesa: XXXXX</h3>
+  <div class="info">
+    <p><strong>Items:</strong> <span id="items"></span></p>
+    <p><strong>Total:</strong> <span id="total"></span> TZS</p>
+    <p><strong>Date:</strong> <span id="date"></span></p>
+  </div>
 
-  <p>After payment, send proof via WhatsApp:</p>
+  <div class="total">
+    Amount to Pay: <span id="total2"></span> TZS
+  </div>
 
-  <!-- MULTIPLE CONTACT OPTIONS -->
-  <a class="btn" href="https://wa.me/255679779669" target="_blank">
-    Contact Office 1
-  </a>
+  <p>Please pay via M-Pesa: XXXXX</p>
 
-  <a class="btn secondary" href="https://wa.me/255689321408" target="_blank">
-    Contact Office 2
+  <button class="btn" onclick="window.print()">🖨️ Print Receipt</button>
+
+  <a class="btn whatsapp" id="whatsappBtn" target="_blank">
+    Contact via WhatsApp
   </a>
 
 </div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+
+  const items = params.get("items") || "-";
+  const total = params.get("total") || "0";
+
+  document.getElementById("items").textContent = items;
+  document.getElementById("total").textContent = total;
+  document.getElementById("total2").textContent = total;
+
+  const now = new Date();
+  document.getElementById("date").textContent = now.toLocaleString();
+
+  const phone = "255679779669";
+  const message = `Hello, I have made a cargo booking.%0AItems: ${items}%0ATotal: ${total} TZS`;
+
+  document.getElementById("whatsappBtn").href =
+    `https://wa.me/${phone}?text=${message}`;
+</script>
 
 </body>
 </html>
