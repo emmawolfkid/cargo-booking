@@ -102,12 +102,38 @@ button:hover {
   margin-top: 22px;
 }
 
-.category-block h3 {
+.category-title {
   font-size: 15px;
   margin-bottom: 8px;
   color: #1e88e5;
   border-left: 4px solid #1e88e5;
   padding-left: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle-indicator {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(30,136,229,0.12);
+  color: #1e88e5;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.category-block.collapsed .category-items {
+  display: none;
+}
+
+.category-block.collapsed .category-title {
+  color: #4a6572;
+  border-color: #a3c5f1;
 }
 
 /* GRID */
