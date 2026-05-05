@@ -7,17 +7,15 @@ body {
 .wrapper {
   max-width: 600px;
   margin: auto;
-  padding: 20px;
+  padding: 15px;
 }
 
 .header {
   text-align: center;
-  margin-bottom: 20px;
 }
 
 .logo {
-  width: 80px;
-  margin-bottom: 10px;
+  width: 70px;
 }
 
 .card {
@@ -27,62 +25,38 @@ body {
   box-shadow: 0 4px 20px rgba(0,0,0,0.08);
 }
 
-h3 {
-  margin-top: 20px;
-}
-
 input, textarea, select {
   width: 100%;
   padding: 12px;
   margin-top: 10px;
-  border: 1px solid #ddd;
   border-radius: 8px;
+  border: 1px solid #ddd;
 }
 
 .items {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  margin-top: 10px;
 }
 
 .item-card {
-  background: #f8f9fb;
+  background: #f1f3f6;
   padding: 10px;
   border-radius: 10px;
-  border: 1px solid #ddd;
-  transition: 0.2s;
-}
-
-.item-card:hover {
-  background: #eef3ff;
-}
-
-.item-card label {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-}
-
-.total-box {
-  margin-top: 15px;
-  font-size: 18px;
-  font-weight: bold;
 }
 
 button {
-  margin-top: 20px;
-  width: 100%;
+  margin-top: 15px;
   padding: 12px;
+  width: 100%;
   border: none;
   border-radius: 8px;
   background: #1e88e5;
   color: white;
   font-size: 16px;
-  cursor: pointer;
 }
 
-button:hover {
-  background: #1565c0;
+.note {
+  font-size: 14px;
+  color: #555;
 }

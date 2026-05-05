@@ -1,16 +1,39 @@
 {
   "items": [
-    { "name": "TV", "price": 10000, "category": "Electronics" },
-    { "name": "Fridge", "price": 25000, "category": "Electronics" },
-    { "name": "Laptop", "price": 5000, "category": "Electronics" },
-    { "name": "Radio", "price": 3000, "category": "Electronics" },
 
-    { "name": "Sofa", "price": 20000, "category": "Furniture" },
-    { "name": "Bed", "price": 30000, "category": "Furniture" },
-    { "name": "Table", "price": 10000, "category": "Furniture" },
-    { "name": "Wardrobe", "price": 35000, "category": "Furniture" },
+    { "name": "Kitanda", "category": "Mizigo ya Uhamisho" },
+    { "name": "Godoro", "category": "Mizigo ya Uhamisho" },
+    { "name": "Kabati", "category": "Mizigo ya Uhamisho" },
+    { "name": "TV", "category": "Mizigo ya Uhamisho" },
+    { "name": "Showcase", "category": "Mizigo ya Uhamisho" },
+    { "name": "Sofa Seti", "category": "Mizigo ya Uhamisho" },
+    { "name": "Friji", "category": "Mizigo ya Uhamisho" },
+    { "name": "Feni", "category": "Mizigo ya Uhamisho" },
+    { "name": "Mtungi wa Gas Mdogo", "category": "Mizigo ya Uhamisho" },
+    { "name": "Mtungi wa Gas Mkubwa", "category": "Mizigo ya Uhamisho" },
+    { "name": "Meza ya Jiko", "category": "Mizigo ya Uhamisho" },
+    { "name": "Diaba", "category": "Mizigo ya Uhamisho" },
+    { "name": "Vyombo", "category": "Mizigo ya Uhamisho" },
+    { "name": "Mabegi Makubwa", "category": "Mizigo ya Uhamisho" },
+    { "name": "Viti vya Plastiki", "category": "Mizigo ya Uhamisho" },
+    { "name": "Radio", "category": "Mizigo ya Uhamisho" },
+    { "name": "Zuria", "category": "Mizigo ya Uhamisho" },
 
-    { "name": "Bicycle", "price": 15000, "category": "Transport" },
-    { "name": "Motorcycle", "price": 40000, "category": "Transport" }
+    { "name": "Gari", "category": "Mizigo ya Kawaida" },
+    { "name": "Bajaji", "category": "Mizigo ya Kawaida" },
+    { "name": "Baiskeli", "category": "Mizigo ya Kawaida" },
+    { "name": "Banda la bati", "category": "Mizigo ya Kawaida" },
+    { "name": "Simu", "category": "Mizigo ya Kawaida" },
+    { "name": "Nguo", "category": "Mizigo ya Kawaida" },
+    { "name": "Perfume", "category": "Mizigo ya Kawaida" },
+    { "name": "Vibox Daga", "category": "Mizigo ya Kawaida" },
+    { "name": "Bahasha", "category": "Mizigo ya Kawaida" },
+    { "name": "Spea za gari", "category": "Mizigo ya Kawaida" },
+    { "name": "Mashine za ATM", "category": "Mizigo ya Kawaida" },
+
+    { "name": "Huduma nyingine", "category": "Huduma Maalum" },
+    { "name": "Gari nzima (Dar kwenda Mikoani)", "category": "Huduma Maalum" },
+    { "name": "Gari nzima (Mwanza kwenda Mikoani)", "category": "Huduma Maalum" }
+
   ]
 }

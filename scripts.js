@@ -1,8 +1,5 @@
 const itemsContainer = document.querySelector('.items');
-const totalDisplay = document.getElementById('total');
-const totalInput = document.getElementById('totalInput');
 const itemsInput = document.getElementById('itemsInput');
-
 const searchInput = document.getElementById('search');
 const categoryFilter = document.getElementById('categoryFilter');
 
@@ -37,9 +34,8 @@ function renderItems(items) {
 
     div.innerHTML = `
       <label>
-        <input type="checkbox" value="${item.price}" data-name="${item.name}">
-        <span>${item.name}</span>
-        <strong>${item.price} TZS</strong>
+        <input type="checkbox" data-name="${item.name}">
+        ${item.name}
       </label>
     `;
 
@@ -50,29 +46,16 @@ function renderItems(items) {
 }
 
 function attachEvents() {
-  const checkboxes = document.querySelectorAll('.items input');
+  document.querySelectorAll('.items input').forEach(cb => {
+    cb.addEventListener('change', () => {
+      selectedItems = [];
+      document.querySelectorAll('.items input').forEach(i => {
+        if (i.checked) selectedItems.push(i.dataset.name);
+      });
 
-  checkboxes.forEach(cb => {
-    cb.addEventListener('change', updateTotal);
+      itemsInput.value = selectedItems.join(', ');
+    });
   });
-}
-
-function updateTotal() {
-  const checkboxes = document.querySelectorAll('.items input');
-
-  let total = 0;
-  selectedItems = [];
-
-  checkboxes.forEach(i => {
-    if (i.checked) {
-      total += parseInt(i.value);
-      selectedItems.push(i.dataset.name);
-    }
-  });
-
-  totalDisplay.textContent = total;
-  totalInput.value = total;
-  itemsInput.value = selectedItems.join(', ');
 }
 
 searchInput.addEventListener('input', filterItems);
@@ -82,53 +65,46 @@ function filterItems() {
   const search = searchInput.value.toLowerCase();
   const category = categoryFilter.value;
 
-  const filtered = allItems.filter(item => {
-    return (
-      item.name.toLowerCase().includes(search) &&
-      (category === "all" || item.category === category)
-    );
-  });
+  const filtered = allItems.filter(item =>
+    item.name.toLowerCase().includes(search) &&
+    (category === "all" || item.category === category)
+  );
 
   renderItems(filtered);
 }
 
-// NEW CODE - Handle form submission manually
-const form = document.querySelector('form');
-if (form) {
-  form.addEventListener('submit', function(e) {
-    e.preventDefault(); // Stop normal form submission
-    
-    // Collect all form data
-    const name = document.querySelector('input[name="name"]')?.value || '';
-    const phone = document.querySelector('input[name="phone"]')?.value || '';
-    const pickup = document.querySelector('input[name="pickup"]')?.value || '';
-    const destination = document.querySelector('input[name="destination"]')?.value || '';
-    const items = itemsInput.value || '';
-    const total = totalInput.value || '0';
-    const notes = document.querySelector('textarea[name="notes"]')?.value || '';
-    
-    // Save to localStorage for thank-you page
-    localStorage.setItem('bookingName', name);
-    localStorage.setItem('bookingPhone', phone);
-    localStorage.setItem('bookingPickup', pickup);
-    localStorage.setItem('bookingDestination', destination);
-    localStorage.setItem('bookingItems', items);
-    localStorage.setItem('bookingTotal', total);
-    localStorage.setItem('bookingNotes', notes);
-    
-    // Send to Netlify via fetch API
-    const formData = new FormData(form);
-    
-    fetch('/', {
-      method: 'POST',
-      body: formData
-    }).then(() => {
-      // After sending to Netlify, go to thank-you page
-      window.location.href = '/thank-you.html';
-    }).catch(error => {
-      console.error('Error:', error);
-      // Still go to thank-you page even if Netlify fails
-      window.location.href = '/thank-you.html';
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(position => {
+      const link = `https://maps.google.com/?q=${position.coords.latitude},${position.coords.longitude}`;
+      document.getElementById('pickup').value = link;
     });
-  });
+  }
 }
+
+// SUBMIT HANDLER
+const form = document.querySelector('form');
+
+form.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const name = form.name.value;
+  const phone = form.phone.value;
+  const pickup = form.pickup.value;
+  const destination = form.destination.value;
+  const items = itemsInput.value;
+  const custom = form.custom_items.value;
+
+  localStorage.setItem('name', name);
+  localStorage.setItem('phone', phone);
+  localStorage.setItem('pickup', pickup);
+  localStorage.setItem('destination', destination);
+  localStorage.setItem('items', items + " | " + custom);
+
+  fetch('/', {
+    method: 'POST',
+    body: new FormData(form)
+  }).then(() => {
+    window.location.href = '/thank-you.html';
+  });
+});

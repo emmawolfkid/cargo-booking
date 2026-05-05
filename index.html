@@ -1,70 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sw">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cargo Booking</title>
-  <link rel="stylesheet" href="style.css"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mwanza Cargo</title>
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <div class="wrapper">
 
-  <!-- HEADER -->
   <div class="header">
-    <img src="logo.png" alt="Company Logo" class="logo"/>
-    <h1>Cargo Booking</h1>
-    <p>Fast • Reliable • Secure Transport</p>
+    <img src="logo.png" class="logo">
+    <h1>Mwanza Cargo</h1>
+    <p>Usafirishaji Salama na Haraka</p>
   </div>
 
-  <!-- FORM CARD -->
   <div class="card">
 
-    <form 
-      name="cargo-booking" 
-      method="POST" 
-      data-netlify="true" 
-    >
+    <form name="cargo-booking" method="POST" data-netlify="true">
 
-      <!-- REQUIRED FOR NETLIFY -->
       <input type="hidden" name="form-name" value="cargo-booking">
-
-      <!-- HIDDEN DATA -->
       <input type="hidden" name="items" id="itemsInput">
-      <input type="hidden" name="total" id="totalInput">
 
-      <!-- CUSTOMER -->
-      <h3>Customer Details</h3>
-      <input type="text" name="name" placeholder="Full Name" required>
-      <input type="tel" name="phone" placeholder="Phone Number" required>
+      <h3>Taarifa za Mteja</h3>
+      <input type="text" name="name" placeholder="Jina Kamili" required>
+      <input type="tel" name="phone" placeholder="Namba ya Simu" required>
 
-      <!-- LOCATIONS -->
-      <h3>Pickup & Delivery</h3>
-      <input type="text" name="pickup" placeholder="Pickup Location" required>
-      <input type="text" name="destination" placeholder="Destination" required>
+      <h3>Mahali</h3>
+      <input type="text" name="pickup" id="pickup" placeholder="Mahali pa Kuchukua" required>
+      <input type="text" name="destination" id="destination" placeholder="Mahali pa Kupeleka" required>
 
-      <!-- SEARCH + FILTER -->
-      <h3>Select Items</h3>
+      <button type="button" onclick="getLocation()">📍 Tumia Location Yangu</button>
 
-      <input type="text" id="search" placeholder="Search items...">
+      <h3>Chagua Mizigo</h3>
 
-        <select id="categoryFilter">
-         <option value="all">All Categories</option>
-        </select>
+      <input type="text" id="search" placeholder="Tafuta mzigo...">
 
-      <!-- ITEMS CONTAINER (DYNAMIC) -->
+      <select id="categoryFilter">
+        <option value="all">Aina zote</option>
+      </select>
+
       <div class="items"></div>
 
-      <!-- TOTAL -->
-      <div class="total-box">
-        Total: <strong><span id="total">0</span> TZS</strong>
-      </div>
+      <h3>Mizigo Mingine</h3>
+      <textarea name="custom_items" placeholder="Andika mizigo mingine hapa..."></textarea>
 
-      <!-- NOTES -->
-      <textarea name="notes" placeholder="Additional instructions (optional)"></textarea>
+      <p class="note">
+        💡 Bei halisi itathibitishwa baada ya kupokea maelezo yako
+      </p>
 
-      <!-- BUTTON -->
-      <button type="submit">Confirm Booking</button>
+      <button type="submit">Tuma Ombi</button>
 
     </form>
 
@@ -73,6 +60,5 @@
 </div>
 
 <script src="scripts.js"></script>
-
 </body>
 </html>
