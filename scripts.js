@@ -105,6 +105,6 @@ form.addEventListener('submit', function(e) {
     method: 'POST',
     body: new FormData(form)
   }).then(() => {
-    window.location.href = '/thank-you.html';
+    window.location.href = 'thank-you.html';
   });
 });
