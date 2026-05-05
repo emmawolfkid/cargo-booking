@@ -7,31 +7,57 @@
 
 <style>
 body {
-  font-family: 'Segoe UI';
-  background:#f4f6f9;
-  padding:20px;
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f4f6f9;
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 
 .card {
-  max-width:500px;
-  margin:auto;
-  background:white;
-  padding:20px;
-  border-radius:10px;
-  text-align:center;
+  width: 100%;
+  max-width: 520px;
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+.details {
+  text-align: left;
+  margin: 20px 0;
+  color: #333;
+}
+
+.details p {
+  margin: 10px 0;
 }
 
 .btn {
-  padding:12px;
-  display:block;
-  margin-top:10px;
-  text-decoration:none;
-  color:white;
-  border-radius:8px;
+  display: inline-block;
+  padding: 14px 18px;
+  margin-top: 12px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
 }
 
 .whatsapp {
-  background:#25D366;
+  background: #25D366;
+}
+
+.home {
+  background: #1e88e5;
+  margin-left: 8px;
 }
 </style>
 </head>
@@ -40,36 +66,54 @@ body {
 
 <div class="card">
 
-<h2>✅ Ombi Limepokelewa</h2>
+  <h2>✅ Ombi Limepokelewa</h2>
+  <p>Tutawasiliana nawe kuthibitisha bei na mpangilio wa usafirishaji.</p>
 
-<p>Tutawasiliana nawe kuthibitisha bei na usafirishaji.</p>
+  <div class="details">
+    <p><strong>Mizigo:</strong> <span id="items">Hakuna taarifa</span></p>
+    <p><strong>Jina:</strong> <span id="customer">--</span></p>
+    <p><strong>Simu:</strong> <span id="phone">--</span></p>
+    <p><strong>Kutoka:</strong> <span id="pickup">--</span></p>
+    <p><strong>Kwenda:</strong> <span id="destination">--</span></p>
+  </div>
 
-<p><strong>Mizigo:</strong> <span id="items"></span></p>
-
-<a class="btn whatsapp" id="wa" target="_blank">
-  Wasiliana WhatsApp
-</a>
+  <a class="btn whatsapp" id="wa" target="_blank" rel="noreferrer noopener">
+    Wasiliana WhatsApp
+  </a>
+  <a class="btn home" href="index.html">
+    Rudi Nyumbani
+  </a>
 
 </div>
 
 <script>
-const name = localStorage.getItem('name');
-const phone = localStorage.getItem('phone');
-const pickup = localStorage.getItem('pickup');
-const destination = localStorage.getItem('destination');
-const items = localStorage.getItem('items');
+const name = localStorage.getItem('name') || 'Haijataiwa';
+const phone = localStorage.getItem('phone') || 'Haijataiwa';
+const pickup = localStorage.getItem('pickup') || 'Haijataiwa';
+const destination = localStorage.getItem('destination') || 'Haijataiwa';
+const items = localStorage.getItem('items') || 'Hakuna mizigo maalum';
 
-document.getElementById("items").textContent = items;
+const itemsEl = document.getElementById('items');
+const customerEl = document.getElementById('customer');
+const phoneEl = document.getElementById('phone');
+const pickupEl = document.getElementById('pickup');
+const destinationEl = document.getElementById('destination');
 
-const msg = `Habari, nimefanya ombi la usafirishaji.
-Jina: ${name}
-Simu: ${phone}
-Kutoka: ${pickup}
-Kwenda: ${destination}
-Mizigo: ${items}`;
+itemsEl.textContent = items;
+customerEl.textContent = name;
+phoneEl.textContent = phone;
+pickupEl.textContent = pickup;
+destinationEl.textContent = destination;
 
-document.getElementById("wa").href =
-  "https://wa.me/255679779669?text=" + encodeURIComponent(msg);
+const msg = `Habari, nimefanya ombi la usafirishaji.` +
+  `\nJina: ${name}` +
+  `\nSimu: ${phone}` +
+  `\nKutoka: ${pickup}` +
+  `\nKwenda: ${destination}` +
+  `\nMizigo: ${items}`;
+
+const whatsappLink = `https://wa.me/255679779669?text=${encodeURIComponent(msg)}`;
+document.getElementById('wa').href = whatsappLink;
 </script>
 
 </body>

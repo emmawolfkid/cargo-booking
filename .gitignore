@@ -1,0 +1,4 @@
+# Ignore local development and IDE files
+oracleJdk-26/
+.DS_Store
+Thumbs.db
