@@ -69,3 +69,23 @@ button {
   font-size: 14px;
   color: #555;
 }
+
+.category-block {
+  margin-top: 20px;
+}
+
+.category-block h3 {
+  color: #1e88e5;
+}
+
+.category-items {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.item-card {
+  background: #f1f3f6;
+  padding: 10px;
+  border-radius: 10px;
+}

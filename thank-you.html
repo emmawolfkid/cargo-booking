@@ -39,6 +39,7 @@ h2 {
 
 .details p {
   margin: 10px 0;
+  line-height: 1.5;
 }
 
 .btn {
@@ -55,7 +56,7 @@ h2 {
   background: #25D366;
 }
 
-.home {
+.primary {
   background: #1e88e5;
   margin-left: 8px;
 }
@@ -70,51 +71,142 @@ h2 {
   <p>Tutawasiliana nawe kuthibitisha bei na mpangilio wa usafirishaji.</p>
 
   <div class="details">
-    <p><strong>Mizigo:</strong> <span id="items">Hakuna taarifa</span></p>
+    <p><strong>Mizigo:</strong><br><span id="items">Hakuna taarifa</span></p>
     <p><strong>Jina:</strong> <span id="customer">--</span></p>
     <p><strong>Simu:</strong> <span id="phone">--</span></p>
     <p><strong>Kutoka:</strong> <span id="pickup">--</span></p>
     <p><strong>Kwenda:</strong> <span id="destination">--</span></p>
   </div>
 
-  <a class="btn whatsapp" id="wa" target="_blank" rel="noreferrer noopener">
+  <a class="btn whatsapp" id="wa" target="_blank">
     Wasiliana WhatsApp
   </a>
-  <a class="btn home" href="index.html">
+
+  <a class="btn primary" onclick="downloadPDF()">
+    Pakua Risiti
+  </a>
+
+  <a class="btn primary" href="index.html">
     Rudi Nyumbani
   </a>
 
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <script>
-const name = localStorage.getItem('name') || 'Haijataiwa';
-const phone = localStorage.getItem('phone') || 'Haijataiwa';
-const pickup = localStorage.getItem('pickup') || 'Haijataiwa';
-const destination = localStorage.getItem('destination') || 'Haijataiwa';
-const items = localStorage.getItem('items') || 'Hakuna mizigo maalum';
 
-const itemsEl = document.getElementById('items');
-const customerEl = document.getElementById('customer');
-const phoneEl = document.getElementById('phone');
-const pickupEl = document.getElementById('pickup');
-const destinationEl = document.getElementById('destination');
+// 🔹 GET DATA
+let data = {};
+try {
+  data = JSON.parse(localStorage.getItem('data')) || {};
+} catch {
+  data = {};
+}
 
-itemsEl.textContent = items;
-customerEl.textContent = name;
-phoneEl.textContent = phone;
-pickupEl.textContent = pickup;
-destinationEl.textContent = destination;
+// 🔹 FALLBACKS
+const name = data.name || 'Haijatajwa';
+const phone = data.phone || 'Haijatajwa';
+const pickup = data.pickup || 'Haijatajwa';
+const destination = data.destination || 'Haijatajwa';
+const items = data.items || 'Hakuna mizigo maalum';
 
-const msg = `Habari, nimefanya ombi la usafirishaji.` +
-  `\nJina: ${name}` +
-  `\nSimu: ${phone}` +
-  `\nKutoka: ${pickup}` +
-  `\nKwenda: ${destination}` +
-  `\nMizigo: ${items}`;
+// 🔹 DISPLAY
+document.getElementById('items').textContent = items;
+document.getElementById('customer').textContent = name;
+document.getElementById('phone').textContent = phone;
+document.getElementById('pickup').textContent = pickup;
+document.getElementById('destination').textContent = destination;
 
-const whatsappLink = `https://wa.me/255679779669?text=${encodeURIComponent(msg)}`;
-document.getElementById('wa').href = whatsappLink;
+// 🔹 DATE + RECEIPT NO
+const today = new Date();
+const date = today.toLocaleDateString('sw-TZ');
+
+const receiptNo = "MC-" + Date.now().toString().slice(-6);
+
+// 🔹 WHATSAPP MESSAGE
+const msg =
+`📦 *OMBI LA USAFIRISHAJI*
+
+🧾 Namba: ${receiptNo}
+📅 Tarehe: ${date}
+
+👤 Jina: ${name}
+📞 Simu: ${phone}
+
+📍 Kutoka: ${pickup}
+📍 Kwenda: ${destination}
+
+📦 Mizigo:
+${items}
+
+💰 Bei itathibitishwa.`;
+
+document.getElementById('wa').href =
+`https://wa.me/255679779669?text=${encodeURIComponent(msg)}`;
+
+
+// 🔥 PDF FUNCTION WITH LOGO
+function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  let y = 20;
+
+  // 🔹 LOAD LOGO
+  const img = new Image();
+  img.src = "logo.png"; // make sure logo.png is in same folder
+
+  img.onload = function () {
+
+    // LOGO
+    doc.addImage(img, 'PNG', 20, y, 30, 30);
+
+    // TITLE
+    doc.setFontSize(16);
+    doc.text("MWANZA CARGO", 60, y + 10);
+    doc.setFontSize(12);
+    doc.text("RISITI YA USAFIRISHAJI", 60, y + 18);
+
+    y += 40;
+
+    // RECEIPT INFO
+    doc.text(`Namba: ${receiptNo}`, 20, y);
+    y += 10;
+    doc.text(`Tarehe: ${date}`, 20, y);
+    y += 15;
+
+    // CUSTOMER INFO
+    doc.text(`Jina: ${name}`, 20, y);
+    y += 10;
+
+    doc.text(`Simu: ${phone}`, 20, y);
+    y += 10;
+
+    doc.text(`Kutoka: ${pickup}`, 20, y);
+    y += 10;
+
+    doc.text(`Kwenda: ${destination}`, 20, y);
+    y += 15;
+
+    // ITEMS
+    doc.text("Mizigo:", 20, y);
+    y += 10;
+
+    const lines = doc.splitTextToSize(items, 170);
+    doc.text(lines, 20, y);
+
+    y += lines.length * 7 + 10;
+
+    // FOOTER
+    doc.setFontSize(10);
+    doc.text("Asante kwa kuchagua Mwanza Cargo", 20, y);
+
+    // SAVE
+    doc.save(`risiti_${receiptNo}.pdf`);
+  };
+}
+
 </script>
-
 </body>
 </html>

@@ -1,161 +1,101 @@
 const itemsContainer = document.querySelector('.items');
 const itemsInput = document.getElementById('itemsInput');
-const searchInput = document.getElementById('search');
-const categoryFilter = document.getElementById('categoryFilter');
 
 let allItems = [];
 let selectedItems = [];
 
-window.addEventListener('DOMContentLoaded', () => {
-  fetch('items.json')
-    .then(res => res.json())
-    .then(data => {
-      allItems = data.items;
-      populateCategories();
-      renderItems(allItems);
-      updateHiddenItems();
-    })
-    .catch(() => {
-      itemsContainer.innerHTML = '<p class="empty">Imeshindikana kupakua mizigo. Jaribu tena baadaye.</p>';
-    });
-
-  itemsContainer.addEventListener('change', e => {
-    if (!e.target.matches('input[type="checkbox"]')) return;
-    const itemName = e.target.dataset.name;
-    updateSelection(itemName, e.target.checked);
+fetch('items.json')
+  .then(res => res.json())
+  .then(data => {
+    allItems = data.items;
+    renderItems();
   });
 
-  searchInput.addEventListener('input', filterItems);
-  categoryFilter.addEventListener('change', filterItems);
-});
-
-function populateCategories() {
-  const categories = [...new Set(allItems.map(i => i.category))];
-
-  categories.forEach(cat => {
-    const option = document.createElement('option');
-    option.value = cat;
-    option.textContent = cat;
-    categoryFilter.appendChild(option);
-  });
-}
-
-function renderItems(items) {
+function renderItems() {
   itemsContainer.innerHTML = "";
 
-  if (items.length === 0) {
-    itemsContainer.innerHTML = '<p class="empty">Hakuna bidhaa inayolingana na utafutaji wako.</p>';
-    return;
-  }
+  const grouped = {};
 
-  items.forEach(item => {
-    const div = document.createElement('div');
-    div.classList.add('item-card');
+  allItems.forEach(item => {
+    if (!grouped[item.category]) grouped[item.category] = [];
+    grouped[item.category].push(item);
+  });
 
-    const isChecked = selectedItems.includes(item.name) ? 'checked' : '';
+  Object.keys(grouped).forEach(category => {
 
-    div.innerHTML = `
-      <label>
-        <input type="checkbox" data-name="${item.name}" ${isChecked}>
-        ${item.name}
-      </label>
-    `;
+    const section = document.createElement('div');
+    section.classList.add('category-block');
 
-    itemsContainer.appendChild(div);
+    section.innerHTML = `<h3>${category}</h3>`;
+    const box = document.createElement('div');
+    box.classList.add('category-items');
+
+    grouped[category].forEach(item => {
+
+      const div = document.createElement('div');
+      div.classList.add('item-card');
+
+      div.innerHTML = `
+        <label>
+          <input type="checkbox" data-name="${item.name}">
+          <strong>${item.name}</strong><br>
+          <small>💰 ${item.price}</small>
+        </label>
+      `;
+
+      box.appendChild(div);
+    });
+
+    section.appendChild(box);
+    itemsContainer.appendChild(section);
   });
 }
 
-function updateSelection(name, checked) {
-  if (checked && !selectedItems.includes(name)) {
-    selectedItems.push(name);
-  } else if (!checked) {
-    selectedItems = selectedItems.filter(item => item !== name);
+itemsContainer.addEventListener('change', e => {
+  if (!e.target.matches('input[type="checkbox"]')) return;
+
+  const name = e.target.dataset.name;
+  const item = allItems.find(i => i.name === name);
+  const formatted = `${item.name} (${item.price})`;
+
+  if (e.target.checked) {
+    selectedItems.push(formatted);
+  } else {
+    selectedItems = selectedItems.filter(i => !i.startsWith(name));
   }
 
-  updateHiddenItems();
-}
+  itemsInput.value = selectedItems.join('\n');
+});
 
-function updateHiddenItems() {
-  itemsInput.value = selectedItems.join(', ');
-}
-
-function filterItems() {
-  const search = searchInput.value.toLowerCase();
-  const category = categoryFilter.value;
-
-  const filtered = allItems.filter(item =>
-    item.name.toLowerCase().includes(search) &&
-    (category === 'all' || item.category === category)
-  );
-
-  renderItems(filtered);
-}
-
-function getLocation() {
-  if (!navigator.geolocation) {
-    alert('Utaalamu wa eneo haupatikani kwenye kivinjari chako.');
-    return;
-  }
-
-  navigator.geolocation.getCurrentPosition(
-    position => {
-      const link = `https://maps.google.com/?q=${position.coords.latitude},${position.coords.longitude}`;
-      document.getElementById('pickup').value = link;
-    },
-    () => {
-      alert('Haikuwezekana kupata eneo lako. Jaribu tena kwa baadaye.');
-    }
-  );
+function buildWhatsAppMessage(data) {
+  return `📦 *OMBI LA USAFIRISHAJI*\n\n` +
+    `👤 Jina: ${data.name}\n` +
+    `📞 Simu: ${data.phone}\n\n` +
+    `📍 Kutoka: ${data.pickup}\n` +
+    `📍 Kwenda: ${data.destination}\n\n` +
+    `📦 Mizigo:\n${data.items}\n\n` +
+    (data.custom ? `📝 Zingine: ${data.custom}\n\n` : '') +
+    `💰 Bei itathibitishwa.`;
 }
 
 const form = document.querySelector('form');
 
-function buildWhatsAppMessage(data) {
-  return `Habari, nimefanya ombi la usafirishaji.` +
-    `\nJina: ${data.name}` +
-    `\nSimu: ${data.phone}` +
-    `\nKutoka: ${data.pickup}` +
-    `\nKwenda: ${data.destination}` +
-    `\nMizigo: ${data.items}` +
-    (data.custom ? `\nMizigo mingine: ${data.custom}` : '');
-}
-
 form.addEventListener('submit', function(e) {
   e.preventDefault();
 
-  const name = form.name.value.trim();
-  const phone = form.phone.value.trim();
-  const pickup = form.pickup.value.trim();
-  const destination = form.destination.value.trim();
-  const items = itemsInput.value.trim();
-  const custom = form.custom_items.value.trim();
-  const itemSummary = [items, custom].filter(Boolean).join(' | ');
-
-  const formData = {
-    name,
-    phone,
-    pickup,
-    destination,
-    items: itemSummary || 'Hakuna mizigo maalum',
-    custom
+  const data = {
+    name: form.name.value,
+    phone: form.phone.value,
+    pickup: form.pickup.value,
+    destination: form.destination.value,
+    items: itemsInput.value || "Hakuna",
+    custom: form.custom_items.value
   };
 
-  localStorage.setItem('name', formData.name);
-  localStorage.setItem('phone', formData.phone);
-  localStorage.setItem('pickup', formData.pickup);
-  localStorage.setItem('destination', formData.destination);
-  localStorage.setItem('items', formData.items);
+  localStorage.setItem('data', JSON.stringify(data));
 
-  const whatsappUrl = `https://wa.me/255679779669?text=${encodeURIComponent(buildWhatsAppMessage(formData))}`;
-  window.open(whatsappUrl, '_blank');
+  const url = `https://wa.me/255679779669?text=${encodeURIComponent(buildWhatsAppMessage(data))}`;
+  window.open(url, '_blank');
 
-  const netlifyForm = new FormData(form);
-  fetch('/', {
-    method: 'POST',
-    body: netlifyForm
-  }).catch(() => {
-    // ignore failures on non-Netlify hosts
-  }).finally(() => {
-    window.location.href = 'thank-you.html';
-  });
+  window.location.href = "thank-you.html";
 });
