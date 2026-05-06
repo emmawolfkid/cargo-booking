@@ -18,6 +18,10 @@
     { "name": "Viti vya Plastiki", "category": "Mizigo ya Uhamisho", "price": "-" },
     { "name": "Radio", "category": "Mizigo ya Uhamisho", "price": "10k - 30k" },
     { "name": "Zuria", "category": "Mizigo ya Uhamisho", "price": "10k - 50k" },
+    { "name": "Kabati milango minne", "category": "Mizigo ya Uhamisho", "price": "150k" },
+    { "name": "Kabati milango mitatu", "category": "Mizigo ya Uhamisho", "price": "120k" },
+    { "name": "kabati milango miwili", "category": "Mizigo ya Uhamisho", "price": "80k" },
+    { "name": "Dining Table", "category": "Mizigo ya Uhamisho", "price": "50k - 100k" },
 
     { "name": "Gari", "category": "Mizigo ya Kawaida", "price": "Bei maalum" },
     { "name": "Bajaji", "category": "Mizigo ya Kawaida", "price": "Bei maalum" },
