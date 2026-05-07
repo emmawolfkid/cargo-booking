@@ -116,7 +116,11 @@ function getLocation() {
   navigator.geolocation.getCurrentPosition(
     position => {
       const { latitude, longitude } = position.coords;
+      // Store coordinates in a way we can extract later for the maps link
       pickupInput.value = `Lat: ${latitude.toFixed(6)}, Lon: ${longitude.toFixed(6)}`;
+      // Store the raw coordinates as a data attribute for use in WhatsApp message
+      pickupInput.dataset.lat = latitude;
+      pickupInput.dataset.lon = longitude;
     },
     error => {
       alert(`Tafadhali ruhusu location au ingiza pickup kwa mkono. Error: ${error.message}`);
@@ -126,11 +130,23 @@ function getLocation() {
 }
 
 function buildWhatsAppMessage(data) {
+  // Function to convert coordinates to Google Maps link
+  function coordinatesToMapLink(text) {
+    const coordinatePattern = /Lat:\s*([-\d.]+),\s*Lon:\s*([-\d.]+)/;
+    const match = text.match(coordinatePattern);
+    if (match) {
+      const lat = match[1];
+      const lon = match[2];
+      return `🗺️ https://maps.google.com/?q=${lat},${lon}`;
+    }
+    return text;
+  }
+
   return `📦 *OMBI LA USAFIRISHAJI*\n\n` +
     `👤 Jina: ${data.name}\n` +
     `📞 Simu: ${data.phone}\n\n` +
-    `📍 Kutoka: ${data.pickup}\n` +
-    `📍 Kwenda: ${data.destination}\n\n` +
+    `📍 Kutoka: ${coordinatesToMapLink(data.pickup)}\n` +
+    `📍 Kwenda: ${coordinatesToMapLink(data.destination)}\n\n` +
     `📦 Mizigo:\n${data.items}\n\n` +
     (data.custom ? `📝 Zingine: ${data.custom}\n\n` : '') +
     `💰 Bei itathibitishwa.`;
