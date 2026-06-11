@@ -1,6 +1,5 @@
 {
   "items": [
-
     { "name": "Kitanda", "category": "Mizigo ya Uhamisho", "price": "60k - 100k" },
     { "name": "Godoro", "category": "Mizigo ya Uhamisho", "price": "50k - 120k" },
     { "name": "Kabati", "category": "Mizigo ya Uhamisho", "price": "70k - 90k" },
@@ -15,12 +14,12 @@
     { "name": "Diaba", "category": "Mizigo ya Uhamisho", "price": "5k - 30k" },
     { "name": "Vyombo", "category": "Mizigo ya Uhamisho", "price": "30k" },
     { "name": "Mabegi Makubwa", "category": "Mizigo ya Uhamisho", "price": "10k - 30k" },
-    { "name": "Viti vya Plastiki", "category": "Mizigo ya Uhamisho", "price": "-" },
+    { "name": "Viti vya Plastiki", "category": "Mizigo ya Uhamisho", "price": "Tafadhali wasiliana" },
     { "name": "Radio", "category": "Mizigo ya Uhamisho", "price": "10k - 30k" },
     { "name": "Zuria", "category": "Mizigo ya Uhamisho", "price": "10k - 50k" },
     { "name": "Kabati milango minne", "category": "Mizigo ya Uhamisho", "price": "150k" },
     { "name": "Kabati milango mitatu", "category": "Mizigo ya Uhamisho", "price": "120k" },
-    { "name": "kabati milango miwili", "category": "Mizigo ya Uhamisho", "price": "80k" },
+    { "name": "Kabati milango miwili", "category": "Mizigo ya Uhamisho", "price": "80k" },
     { "name": "Dining Table", "category": "Mizigo ya Uhamisho", "price": "50k - 100k" },
 
     { "name": "Gari", "category": "Mizigo ya Kawaida", "price": "Bei maalum" },
@@ -29,8 +28,29 @@
     { "name": "Simu", "category": "Mizigo ya Kawaida", "price": "Bei ndogo" },
     { "name": "Nguo", "category": "Mizigo ya Kawaida", "price": "Bei ndogo" },
 
-    { "name": "Gari Nzima (Dar)", "category": "Huduma Maalum", "price": "Wasiliana nasi" },
-    { "name": "Gari Nzima (Mwanza)", "category": "Huduma Maalum", "price": "Wasiliana nasi" }
+    {
+      "name": "*** MIZIGO YA BIASHARA ***",
+      "category": "Biashara",
+      "price": "Wasiliana nasi",
+      "description": "Makasha ya soda, makarango, bidhaa za duka kwa wingi, mizigo ya masoko. Bei inategemea aina na wingi wa mzigo."
+    },
 
+    {
+      "name": "*** MIZIGO YA VIWANDANI ***",
+      "category": "Viwandani",
+      "price": "Wasiliana nasi",
+      "description": "Mashine, vifaa vya viwanda, vyuma, saruji, mizigo mizito. Hatuwezi orodhesha yote. Tafadhali wasiliana nasi kwa quote maalum."
+    },
+
+    {
+      "name": "*** MIZIGO MAALUMU ***",
+      "category": "Maalumu",
+      "price": "Wasiliana nasi",
+      "description": "Vitu vinavyohitaji uangalifu maalum, mizigo yenye thamani kubwa, mizigo inayohitaji gari maalum. Wasiliana nasi kwa maelekezo zaidi."
+    },
+
+    { "name": "Gari Nzima (Dar)", "category": "Huduma Maalum", "price": "Wasiliana nasi" },
+    { "name": "Gari Nzima (Mwanza)", "category": "Huduma Maalum", "price": "Wasiliana nasi" },
+    { "name": "Gari Nzima (Njia Nyingine)", "category": "Huduma Maalum", "price": "Wasiliana nasi", "description": "Wasiliana nasi kwa quote maalum kwa njia yoyote" }
   ]
 }
